@@ -4,35 +4,32 @@
 module tb;
 
 	// Inputs
-	reg clock;
-	reg Btn1;
+	reg clk;
+	reg [2:0] controllers;
 
 	// Outputs
 	wire Horizonatalsync;
 	wire Verticalsync;
-	wire [2:0] red;
-	wire [2:0] green;
-	wire [1:0] blue;
+	wire [3:0] red;
+	wire [3:0] green;
+	wire [3:0] blue;
 
 	// Instantiate the Unit Under Test (UUT)
-	VGALPTop uut (
-		.clock(clock), 
-		.Btn1(Btn1), 
+	VGA_module uut (
+		.clk(clk), 
 		.Horizonatalsync(Horizonatalsync), 
 		.Verticalsync(Verticalsync), 
 		.red(red), 
 		.green(green), 
-		.blue(blue)
+		.blue(blue), 
+		.controllers(controllers)
 	);
-	always #1 clock=!clock;
+	
+	always #1 clk <= !clk;
 	initial begin
 		// Initialize Inputs
-		clock = 0;
-		Btn1 = 0;
+		clk = 0;
+		controllers = 7;
+	end      
+endmodule
 
-		// Wait 100 ns for global reset to finish
-		#100;
-		#10;
-		Btn1 = 1;
-		#10;
-		Btn1 = 0;
